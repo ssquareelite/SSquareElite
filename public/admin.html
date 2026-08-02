@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | SSQUARE ELITE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff3d70;
+            --primary-dark: #dc2358;
+            --ink: #171123;
+            --muted: #70667f;
+            --bg: #fff7ed;
+            --surface: #ffffff;
+            --border: #eee2f7;
+            --radius: 16px;
+            --shadow: 0 18px 55px rgba(65, 35, 125, .14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: Nunito, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Fredoka, sans-serif;
+        }
+
+        .wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 32px 20px 80px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .topbar a {
+            color: var(--primary-dark);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .login-wrap {
+            max-width: 380px;
+            margin: 80px auto;
+        }
+
+        label {
+            display: block;
+            font-weight: 800;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: var(--muted);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            font: inherit;
+            margin-bottom: 14px;
+            background: #fff;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-weight: 800;
+            font: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-light {
+            background: #f4f0fb;
+            color: var(--ink);
+        }
+
+        .btn-danger {
+            background: #ffe4ea;
+            color: #c81d4d;
+        }
+
+        .error {
+            background: #ffe4ea;
+            color: #c81d4d;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: none;
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .row-actions button {
+            padding: 6px 12px;
+            font-size: 13px;
+            margin-right: 6px;
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .pill {
+            background: #f4f0fb;
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <h1>🛠️ SSQUARE ELITE — Admin</h1>
+            <a href="/">← Back to site</a>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="loginView" class="login-wrap card">
+            <h2 style="margin-bottom:16px">Admin Login</h2>
+            <div class="error" id="loginError"></div>
+            <form id="loginForm">
+                <label>Username</label>
+                <input id="loginUsername" required autocomplete="username">
+                <label>Password</label>
+                <input id="loginPassword" type="password" required autocomplete="current-password">
+                <button class="btn-primary" style="width:100%" type="submit">Log In</button>
+            </form>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashView" class="hide">
+            <div class="card" style="margin-bottom:24px">
+                <div class="section-title">
+                    <h2>Add a Product</h2>
+                    <button class="btn-light" onclick="logout()">Log Out</button>
+                </div>
+                <div class="error" id="formError"></div>
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="grid2">
+                        <div>
+                            <label>Name *</label>
+                            <input id="f_name" required>
+                        </div>
+                        <div>
+                            <label>Category *</label>
+                            <input id="f_cat" required placeholder="e.g. Soft Toys">
+                        </div>
+                    </div>
+                    <label>Description</label>
+                    <input id="f_sub" placeholder="Short description">
+                    <div class="grid2">
+                        <div>
+                            <label>Price (₹) *</label>
+                            <input id="f_price" type="number" min="0" required>
+                        </div>
+                        <div>
+                            <label>Old / strike-through price (optional)</label>
+                            <input id="f_old" type="number" min="0">
+                        </div>
+                    </div>
+                    <div class="grid2">
+                        <div>
+                            <label>Image path (optional)</label>
+                            <input id="f_img" placeholder="assets/images/example.png">
+                        </div>
+                        <div>
+                            <label>Emoji fallback</label>
+                            <input id="f_emoji" placeholder="🎁">
+                        </div>
+                    </div>
+                    <div class="grid2">
+                        <div>
+                            <label>Badge</label>
+                            <select id="f_badge">
+                                <option value="new">New</option>
+                                <option value="hot">Hot</option>
+                                <option value="sale">Sale</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Rating (1-5)</label>
+                            <input id="f_rating" type="number" min="1" max="5" value="5">
+                        </div>
+                    </div>
+                    <label>Listing type</label>
+                    <select id="f_type">
+                        <option value="product">Regular product</option>
+                        <option value="gift">Gift set</option>
+                    </select>
+                    <div style="display:flex;gap:10px;margin-top:6px">
+                        <button class="btn-primary" type="submit" id="submitBtn">Add Product</button>
+                        <button class="btn-light hide" type="button" id="cancelEditBtn"
+                            onclick="resetForm()">Cancel Edit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <h2>Catalog</h2>
+                    <span class="pill" id="productCount">0 products</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th>Badge</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editingId = null;
+
+        async function checkSession() {
+            const res = await fetch('/api/admin/session');
+            const data = await res.json();
+            if (data.loggedIn) {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('loginView').classList.remove('hide');
+            document.getElementById('dashView').classList.add('hide');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginView').classList.add('hide');
+            document.getElementById('dashView').classList.remove('hide');
+            loadProducts();
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const errEl = document.getElementById('loginError');
+            errEl.style.display = 'none';
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Login failed');
+                showDashboard();
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.style.display = 'block';
+            }
+        });
+
+        async function logout() {
+            await fetch('/api/admin/logout', { method: 'POST' });
+            showLogin();
+        }
+
+        async function loadProducts() {
+            const res = await fetch('/api/products');
+            const data = await res.json();
+            const products = data.products || [];
+            document.getElementById('productCount').textContent = `${products.length} products`;
+            document.getElementById('productTable').innerHTML = products.map(p => `
+                <tr>
+                    <td>${escapeHtml(p.name)}</td>
+                    <td>${escapeHtml(p.cat)}</td>
+                    <td>₹${p.price}</td>
+                    <td>${p.type === 'gift' ? 'Gift set' : 'Product'}</td>
+                    <td>${p.badge}</td>
+                    <td class="row-actions">
+                        <button class="btn-light" onclick="editProduct(${p.id})">Edit</button>
+                        <button class="btn-danger" onclick="deleteProduct(${p.id})">Delete</button>
+                    </td>
+                </tr>`).join('') || '<tr><td colspan="6">No products yet. Add your first one above.</td></tr>';
+            window.__products = products;
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        function editProduct(id) {
+            const p = (window.__products || []).find(x => x.id === id);
+            if (!p) return;
+            editingId = id;
+            document.getElementById('productId').value = id;
+            document.getElementById('f_name').value = p.name || '';
+            document.getElementById('f_cat').value = p.cat || '';
+            document.getElementById('f_sub').value = p.sub || '';
+            document.getElementById('f_price').value = p.price ?? '';
+            document.getElementById('f_old').value = p.old ?? '';
+            document.getElementById('f_img').value = p.img || '';
+            document.getElementById('f_emoji').value = p.emoji || '';
+            document.getElementById('f_badge').value = p.badge || 'new';
+            document.getElementById('f_rating').value = p.rating || 5;
+            document.getElementById('f_type').value = p.type || 'product';
+            document.getElementById('submitBtn').textContent = 'Save Changes';
+            document.getElementById('cancelEditBtn').classList.remove('hide');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            editingId = null;
+            document.getElementById('productForm').reset();
+            document.getElementById('productId').value = '';
+            document.getElementById('submitBtn').textContent = 'Add Product';
+            document.getElementById('cancelEditBtn').classList.add('hide');
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Delete this product?')) return;
+            const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
+            if (res.ok) loadProducts();
+        }
+
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errEl = document.getElementById('formError');
+            errEl.style.display = 'none';
+            const payload = {
+                name: document.getElementById('f_name').value,
+                cat: document.getElementById('f_cat').value,
+                sub: document.getElementById('f_sub').value,
+                price: document.getElementById('f_price').value,
+                old: document.getElementById('f_old').value || null,
+                img: document.getElementById('f_img').value,
+                emoji: document.getElementById('f_emoji').value,
+                badge: document.getElementById('f_badge').value,
+                rating: document.getElementById('f_rating').value,
+                type: document.getElementById('f_type').value
+            };
+            try {
+                const url = editingId ? `/api/admin/products/${editingId}` : '/api/admin/products';
+                const method = editingId ? 'PUT' : 'POST';
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Could not save product');
+                resetForm();
+                loadProducts();
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.style.display = 'block';
+            }
+        });
+
+        checkSession();
+    </script>
+</body>
+
+</html>

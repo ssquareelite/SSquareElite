@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSQUARE ELITE | Toys, Gifts & Wonders</title>
+    <meta name="description"
+        content="Modern responsive ecommerce website for toys, gifts, cute lamps, accessories, pet supplies and personalized gifts." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff3d70;
+            --primary-dark: #dc2358;
+            --secondary: #ffd84d;
+            --blue: #28b9ff;
+            --purple: #7c4dff;
+            --green: #22c58b;
+            --orange: #ff8f3d;
+            --ink: #171123;
+            --muted: #70667f;
+            --bg: #fff7ed;
+            --surface: #ffffff;
+            --soft: #f7efff;
+            --border: #eee2f7;
+            --glass: rgba(255, 255, 255, .72);
+            --shadow: 0 18px 55px rgba(65, 35, 125, .14);
+            --shadow2: 0 28px 75px rgba(65, 35, 125, .22);
+            --radius: 28px;
+            --radius2: 18px;
+            --max: 1220px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: Nunito, system-ui, sans-serif;
+            background: radial-gradient(circle at top left, #ffe7f0 0, #fff7ed 32%, #f3f9ff 100%);
+            color: var(--ink);
+            overflow-x: hidden
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit
+        }
+
+        button {
+            cursor: pointer
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .container {
+            max-width: var(--max);
+            margin: auto;
+            padding: 0 22px
+        }
+
+        .hide {
+            display: none !important
+        }
+
+        .topbar {
+            background: linear-gradient(90deg, var(--purple), var(--primary), var(--orange));
+            color: #fff;
+            text-align: center;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 10px 14px
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            background: rgba(255, 255, 255, .78);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(124, 77, 255, .12)
+        }
+
+        .nav-wrap {
+            height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: Fredoka, sans-serif;
+            font-weight: 700;
+            font-size: clamp(21px, 3vw, 30px);
+            color: var(--primary)
+        }
+
+        .logo-badge {
+            width: 45px;
+            height: 45px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            display: grid;
+            place-items: center;
+            box-shadow: 0 12px 28px rgba(255, 61, 112, .26)
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--muted)
+        }
+
+        .nav-links a:hover {
+            color: var(--primary)
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 5px;
+            align-items: center
+        }
+
+        .icon-btn,
+        .menu-btn {
+            border: 0;
+            background: #fff;
+            color: var(--ink);
+            height: 45px;
+            padding: 0 16px;
+            border-radius: 999px;
+            font-weight: 900;
+            box-shadow: 0 10px 25px rgba(65, 35, 125, .1);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .cart-pill {
+            background: var(--ink);
+            color: #fff
+        }
+
+        .cart-count {
+            background: var(--secondary);
+            color: var(--ink);
+            min-width: 22px;
+            height: 22px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            font-size: 12px
+        }
+
+        .menu-btn {
+            display: none;
+            width: 45px;
+            padding: 0;
+            justify-content: center
+        }
+
+        .mobile-menu {
+            display: none;
+            padding: 0 22px 18px
+        }
+
+        .mobile-menu.active {
+            display: grid;
+            gap: 10px
+        }
+
+        .mobile-menu a {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 13px 16px;
+            font-weight: 900;
+            color: var(--muted)
+        }
+
+        .hero {
+            position: relative;
+            padding: 72px 0 42px;
+            overflow: hidden
+        }
+
+        .hero:before {
+            content: "";
+            position: absolute;
+            inset: -120px -80px auto auto;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, #E1D5E0, transparent 68%);
+            opacity:.55
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 38px;
+            align-items: center
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            background: #fff;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            border-radius: 999px;
+            padding: 9px 14px;
+            font-weight: 900;
+            color: var(--purple);
+            margin-bottom: 18px
+        }
+
+        .hero h1 {
+            font-family: Fredoka, sans-serif;
+            font-size: clamp(42px, 6vw, 82px);
+            line-height: .95;
+            letter-spacing: -2px
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, var(--primary), var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            color: transparent
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--muted);
+            max-width: 610px;
+            margin: 18px 0 26px;
+            font-weight: 700
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 999px;
+            padding: 14px 22px;
+            font-weight: 1000;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            transition: .22s ease
+        }
+
+        .btn:hover {
+            transform: translateY(-3px)
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: #fff;
+            box-shadow: 0 18px 34px rgba(255, 61, 112, .28)
+        }
+
+        .btn-light {
+            background: #fff;
+            color: var(--ink);
+            box-shadow: var(--shadow)
+        }
+
+        .hero-card {
+            position: relative;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .84), rgba(255, 255, 255, .45));
+            border: 1px solid rgba(255, 255, 255, .9);
+            box-shadow: var(--shadow2);
+            border-radius: 42px;
+            padding: 24px;
+            min-height: 430px;
+            backdrop-filter: blur(18px)
+        }
+
+        .toy-stage {
+            height: 100%;
+            min-height: 380px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, #fff1f5, #eff8ff);
+            display: grid;
+            place-items: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .big-emoji {
+            font-size: 132px;
+            filter: drop-shadow(0 22px 25px rgba(0, 0, 0, .12));
+            animation: float 4s ease-in-out infinite
+        }
+
+        .bubble {
+            position: absolute;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 12px 15px;
+            box-shadow: var(--shadow);
+            font-weight: 1000
+        }
+
+        .b1 {
+            top: 25px;
+            left: 22px
+        }
+
+        .b2 {
+            right: 22px;
+            top: 105px
+        }
+
+        .b3 {
+            bottom: 24px;
+            left: 42px
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-16px) rotate(3deg)
+            }
+        }
+
+        .trust {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 30px
+        }
+
+        .trust-card {
+            background: rgba(255, 255, 255, .8);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 12px 34px rgba(65, 35, 125, .08);
+            font-weight: 900
+        }
+
+        .trust-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+            margin-top: 4px
+        }
+
+        .section {
+            padding: 46px 0
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 22px
+        }
+
+        .section-title {
+            font-family: Fredoka, sans-serif;
+            font-size: clamp(28px, 4vw, 44px)
+        }
+
+        .section-sub {
+            color: var(--muted);
+            font-weight: 800;
+            max-width: 560px
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px
+        }
+
+        .cat {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            padding: 16px;
+            min-height: 160px;
+            box-shadow: var(--shadow);
+            transition: .22s ease;
+            text-align: center
+        }
+
+        .cat:hover,
+        .product:hover {
+            transform: translateY(-7px);
+            box-shadow: var(--shadow2)
+        }
+
+        .cat-img {
+            width: 142px;
+            height: 122px;
+            object-fit: cover;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #fff3ca, #ffe2ec);
+            margin-bottom: 12px
+        }
+
+        .cat strong {
+            display: block
+        }
+
+        .cat small {
+            color: var(--muted);
+            font-weight: 800
+        }
+
+        .shop-tools {
+            display: grid;
+            grid-template-columns: 1.2fr auto auto;
+            gap: 12px;
+            margin: 18px 0 24px
+        }
+
+        .search,
+        .select {
+            border: 2px solid var(--border);
+            background: #fff;
+            border-radius: 999px;
+            padding: 14px 18px;
+            outline: 0;
+            font-weight: 800;
+            color: var(--ink);
+            box-shadow: 0 10px 30px rgba(65, 35, 125, .06)
+        }
+
+        .search:focus,
+        .select:focus {
+            border-color: var(--purple)
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px
+        }
+
+        .product {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: .22s ease;
+            position: relative
+        }
+
+        .badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 1;
+            color: #fff;
+            background: var(--primary);
+            border-radius: 999px;
+            padding: 7px 11px;
+            font-size: 12px;
+            font-weight: 1000
+        }
+
+        .badge.new {
+            background: var(--green)
+        }
+
+        .badge.hot {
+            background: var(--orange)
+        }
+
+        .p-img {
+            height: 210px;
+            background: linear-gradient(135deg, #fff1f7, #eef8ff);
+            display: grid;
+            place-items: center;
+            font-size: 82px
+        }
+
+        .p-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .p-body {
+            padding: 16px
+        }
+
+        .stars {
+            color: #ffc400;
+            font-size: 13px;
+            letter-spacing: 1px
+        }
+
+        .p-name {
+            font-size: 18px;
+            font-weight: 1000;
+            margin: 7px 0 4px
+        }
+
+        .p-sub {
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 14px;
+            min-height: 40px
+        }
+
+        .p-foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 15px
+        }
+
+        .price {
+            font-family: Fredoka, sans-serif;
+            font-size: 23px;
+            color: var(--primary)
+        }
+
+        .old {
+            text-decoration: line-through;
+            color: #9b92a8;
+            font-size: 13px;
+            font-weight: 900
+        }
+
+        .add {
+            border: 0;
+            background: var(--ink);
+            color: #fff;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-weight: 1000
+        }
+
+        .add:hover {
+            background: var(--purple)
+        }
+
+        .banner {
+            background: linear-gradient(120deg, var(--purple), var(--blue));
+            border-radius: 38px;
+            padding: 34px;
+            box-shadow: var(--shadow2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 22px;
+            color: #fff;
+            overflow: hidden;
+            position: relative
+        }
+
+        .banner:after {
+            content: "🎁 🧸 ✨ 🎈";
+            position: absolute;
+            right: 20px;
+            bottom: -8px;
+            font-size: 70px;
+            opacity: .12
+        }
+
+        .banner h2 {
+            font-family: Fredoka, sans-serif;
+            font-size: 36px
+        }
+
+        .banner p {
+            font-weight: 800;
+            opacity: .88;
+            margin-top: 7px
+        }
+
+        .drawer-bg,
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(23, 17, 35, .62);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: none
+        }
+
+        .drawer-bg.active,
+        .modal-bg.active {
+            display: block
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100dvh;
+            width: min(480px, 100%);
+            background: #fff;
+            z-index: 220;
+            transform: translateX(110%);
+            transition: .25s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -30px 0 80px rgba(0, 0, 0, .24)
+        }
+
+        .drawer.active {
+            transform: translateX(0)
+        }
+
+        .drawer-head {
+            padding: 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .drawer-head h2,
+        .modal h2 {
+            font-family: Fredoka, sans-serif
+        }
+
+        .close {
+            border: 0;
+            background: #f5effa;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-weight: 1000
+        }
+
+        .cart-items {
+            padding: 18px;
+            overflow: auto;
+            flex: 1
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 58px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            background: #fff8fd;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 12px
+        }
+
+        .ci-img {
+            font-size: 36px;
+            width: 58px;
+            height: 58px;
+            border-radius: 17px;
+            display: grid;
+            place-items: center;
+            background: #fff
+        }
+
+        .ci-name {
+            font-weight: 1000
+        }
+
+        .ci-price {
+            color: var(--primary);
+            font-weight: 1000
+        }
+
+        .qty {
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .qty button {
+            width: 28px;
+            height: 28px;
+            border: 0;
+            border-radius: 50%;
+            background: var(--ink);
+            color: #fff;
+            font-weight: 1000
+        }
+
+        .cart-summary {
+            padding: 18px;
+            border-top: 1px solid var(--border);
+            background: #fff
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-weight: 900;
+            color: var(--muted)
+        }
+
+        .row.total {
+            font-size: 20px;
+            color: var(--ink)
+        }
+
+        .row.total b {
+            color: var(--primary);
+            font-family: Fredoka, sans-serif
+        }
+
+        .empty {
+            text-align: center;
+            color: var(--muted);
+            font-weight: 900;
+            padding: 60px 16px
+        }
+
+        .modal-bg {
+            z-index: 250;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px
+        }
+
+        .modal-bg.active {
+            display: flex
+        }
+
+        .modal {
+            width: min(560px, 100%);
+            max-height: 92dvh;
+            overflow: auto;
+            background: #fff;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: var(--shadow2)
+        }
+
+        .payment-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 18px 0
+        }
+
+        .tab {
+            border: 2px solid var(--border);
+            background: #fff8fd;
+            border-radius: 18px;
+            padding: 12px 8px;
+            font-weight: 1000;
+            color: var(--muted)
+        }
+
+        .tab.active {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: #f4efff
+        }
+
+        .field {
+            margin-bottom: 12px
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 1000;
+            margin-bottom: 6px
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            border: 2px solid var(--border);
+            background: #fffafc;
+            border-radius: 17px;
+            padding: 13px 15px;
+            outline: 0;
+            font-weight: 800
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .pay-box {
+            background: linear-gradient(135deg, var(--ink), var(--purple));
+            color: #fff;
+            border-radius: 22px;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 1000;
+            margin: 14px 0
+        }
+
+        .pay-box b {
+            font-family: Fredoka, sans-serif;
+            font-size: 26px
+        }
+
+        .success {
+            text-align: center;
+            padding: 22px
+        }
+
+        .success .ok {
+            font-size: 70px
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translate(-50%, 120px);
+            background: var(--ink);
+            color: #fff;
+            border-radius: 999px;
+            padding: 13px 20px;
+            font-weight: 1000;
+            z-index: 999;
+            transition: .25s
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0)
+        }
+
+        .whatsapp {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 180;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: #25d366;
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 31px;
+            box-shadow: 0 16px 35px rgba(37, 211, 102, .38);
+            animation: pulse 1.8s infinite
+        }
+
+        .whatsapp:after {
+            content: "Chat with us";
+            position: absolute;
+            right: 72px;
+            background: #fff;
+            color: var(--ink);
+            border-radius: 999px;
+            padding: 9px 13px;
+            font-size: 13px;
+            font-weight: 1000;
+            white-space: nowrap;
+            box-shadow: var(--shadow)
+        }
+
+        @keyframes pulse {
+            50% {
+                transform: scale(1.07)
+            }
+        }
+
+        footer {
+            background: #171123;
+            color: rgba(255, 255, 255, .74);
+            margin-top: 55px;
+            padding: 45px 0 22px
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr repeat(3, 1fr);
+            gap: 28px
+        }
+
+        .footer-grid h3,
+        .footer-grid h4 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-family: Fredoka, sans-serif
+        }
+
+        .footer-grid p,
+        .footer-grid a {
+            font-weight: 800;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, .68);
+            display: block
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, .1);
+            margin-top: 28px;
+            padding-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-weight: 800
+        }
+
+        @media(max-width:980px) {
+            .hero-grid {
+                grid-template-columns: 1fr
+            }
+
+            .products {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .categories {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .trust {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .nav-links {
+                display: none
+            }
+
+            .menu-btn {
+                display: flex
+            }
+
+            .shop-tools {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .search {
+                grid-column: 1/-1
+            }
+        }
+
+        @media(max-width:680px) {
+            .container {
+                padding: 0 16px
+            }
+
+            .nav-wrap {
+                height: 68px
+            }
+
+            .hero {
+                padding: 42px 0 28px
+            }
+
+            .hero-card {
+                min-height: 330px;
+                border-radius: 28px
+            }
+
+            .toy-stage {
+                min-height: 285px
+            }
+
+            .big-emoji {
+                font-size: 96px
+            }
+
+            .bubble {
+                font-size: 12px
+            }
+
+            .trust,
+            .categories,
+            .products,
+            .footer-grid {
+                grid-template-columns: 1fr
+            }
+
+            .section-head {
+                display: block
+            }
+
+            .shop-tools,
+            .grid2 {
+                grid-template-columns: 1fr
+            }
+
+            .banner {
+                display: block;
+                padding: 26px
+            }
+
+            .banner h2 {
+                font-size: 28px
+            }
+
+            .payment-tabs {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .whatsapp {
+                width: 56px;
+                height: 56px;
+                right: 16px;
+                bottom: 16px
+            }
+
+            .whatsapp:after {
+                display: none
+            }
+
+            .topbar {
+                font-size: 12px
+            }
+
+            .p-img {
+                height: 190px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <header class="navbar">
+        <div class="container nav-wrap">
+            <a class="logo" href="#home"><span class="logo-badge">🧸</span>SSQUARE ELITE</a>
+            <nav class="nav-links"><a href="#categories">Categories</a><a href="#products">Products</a><a
+                    href="#gifts">Gift Sets</a><a href="#contact">Contact</a></nav>
+            <div class="nav-actions"><button class="icon-btn" onclick="focusSearch()">🔎 Search</button><button
+                    class="icon-btn cart-pill" onclick="openCart()">🛒 Cart <span class="cart-count"
+                        id="cartCount">0</span></button><button class="menu-btn" onclick="toggleMenu()">☰</button></div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu"><a href="#categories">Categories</a><a href="#products">Products</a><a
+                href="#gifts">Gift Sets</a><a href="#contact">Contact</a></div>
+    </header>
+
+    <div class="topbar">🎉 Free delivery above ₹199 | Gift wrapping available | Same-day delivery in selected areas
+    </div>
+
+    <main id="home">
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <div class="eyebrow">✨ Trending gifts for every happy moment</div>
+                    <h1>Joyful toys & <span>premium gifts</span> delivered with love.</h1>
+                    <p>Shop cute lamps, soft toys, accessories, pet supplies and personalized gifts in a modern, smooth
+                        and mobile-friendly shopping experience.</p>
+                    <div class="hero-actions"><a href="#products" class="btn btn-primary">Shop Now 🚀</a><a
+                            href="#gifts" class="btn btn-light">Explore Gift Sets 🎁</a></div>
+                    <div class="trust">
+                        <div class="trust-card">10K+<span>Happy orders</span></div>
+                        <div class="trust-card">4.9★<span>Customer rating</span></div>
+                        <div class="trust-card">100%<span>Secure checkout</span></div>
+                        <div class="trust-card">Easy<span>Returns support</span></div>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <div class="toy-stage"><span class="bubble b1">🎁 Gift Wrap</span><span class="bubble b2">⚡ Fast
+                            Delivery</span><span class="bubble b3">💳 All Payments</span>
+                        <div class="big-emoji">🧸</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="categories">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Shop by Category</h2>
+                        <p class="section-sub">Current-trend cards with clean layout, hover effects and full responsive
+                            behavior.</p>
+                    </div>
+                </div>
+                <div class="categories" id="categoryGrid"></div>
+            </div>
+        </section>
+
+        <section class="section" id="products">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Bestselling Products</h2>
+                        <p class="section-sub">Search, filter and add products to cart. Everything works using HTML, CSS
+                            and JavaScript only.</p>
+                    </div>
+                </div>
+                <div class="shop-tools"><input id="searchInput" class="search"
+                        placeholder="Search products, gifts, lamps, toys..." oninput="renderProducts()"><select
+                        id="categoryFilter" class="select" onchange="renderProducts()">
+                        <option value="all">All Categories</option>
+                    </select><select id="sortFilter" class="select" onchange="renderProducts()">
+                        <option value="popular">Sort: Popular</option>
+                        <option value="low">Price: Low to High</option>
+                        <option value="high">Price: High to Low</option>
+                    </select></div>
+                <div class="products" id="productGrid"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="banner">
+                    <div>
+                        <h2>Up to 40% OFF on curated gift boxes!</h2>
+                        <p>Perfect for birthdays, events, festivals and surprise gifting.</p>
+                    </div><a href="#gifts" class="btn btn-light">Grab Deal →</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="gifts">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Premium Gift Sets</h2>
+                        <p class="section-sub">Ready-made bundles with attractive pricing and easy checkout.</p>
+                    </div>
+                </div>
+                <div class="products" id="giftGrid"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>SSQUARE ELITE</h3>
+                    <p>Modern toys, gifts and lifestyle products ecommerce website with cart, checkout, WhatsApp lead
+                        button and responsive UI.</p>
+                </div>
+                <div>
+                    <h4>Shop</h4><a href="#products">Bestsellers</a><a href="#gifts">Gift Sets</a><a
+                        href="#categories">Categories</a>
+                </div>
+                <div>
+                    <h4>Support</h4><a href="#">Track Order</a><a href="#">Return Policy</a><a href="#">FAQ</a>
+                </div>
+                <div>
+                    <h4>Payments</h4><a>Cards</a><a>UPI</a><a>Net Banking</a><a>COD</a>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© 2026 SSQUARE ELITE. All rights reserved.</span><span>🔒 Secure checkout
+                    ready for gateway integration · <a href="/admin.html" style="text-decoration:underline">Admin
+                        Login</a></span></div>
+        </div>
+    </footer>
+
+    <a class="whatsapp" target="_blank" aria-label="Chat on WhatsApp"
+        href="https://wa.me/919344714369?text=Hi%20SSQUARE%20ELITE%2C%20I%20want%20to%20place%20an%20order">☏</a>
+    <div class="drawer-bg" id="drawerBg" onclick="closeCart()"></div>
+    <aside class="drawer" id="cartDrawer">
+        <div class="drawer-head">
+            <h2>Your Cart</h2><button class="close" onclick="closeCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-summary" id="cartSummary"></div>
+    </aside>
+    <div class="modal-bg" id="checkoutModal">
+        <div class="modal">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:14px">
+                <h2>Secure Checkout</h2><button class="close" onclick="closeCheckout()">✕</button>
+            </div>
+            <div id="checkoutContent"></div>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const whatsappNumber = '918189883422';
+        let categories = [];
+        let products = [];
+        let gifts = [];
+        let all = [];
+        let cart = JSON.parse(localStorage.getItem('ssquare_cart') || '[]');
+        async function init() {
+            try {
+                const res = await fetch('/api/products');
+                const data = await res.json();
+                categories = (data.categories || []).map(c => [c.name, c.img, c.sub]);
+                products = (data.products || []).filter(p => p.type !== 'gift');
+                gifts = (data.products || []).filter(p => p.type === 'gift');
+            } catch (err) {
+                console.warn('Could not load catalog from server:', err);
+            }
+            all = [...products, ...gifts];
+            document.getElementById('categoryGrid').innerHTML = categories.map(c => `<a class="cat" href="#products" onclick="setCategory('${c[0]}')"><img class="cat-img" src="${c[1]}" alt="${c[0]}" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<div style=&quot;font-size:62px;margin-bottom:14px&quot;>🎁</div>')"><strong>${c[0]}</strong><small>${c[2]}</small></a>`).join('');
+        const sel = document.getElementById('categoryFilter'); sel.innerHTML = '<option value="all">All Categories</option>'; categories.forEach(c => sel.insertAdjacentHTML('beforeend', `<option value="${c[0]}">${c[0]}</option>`)); renderProducts(); renderGifts(); updateCart(); }
+        function card(p) { let img = p.img ? `<img src="${p.img}" alt="${p.name}" onerror="this.outerHTML='<span>${p.emoji || '🎁'}</span>'">` : `<span>${p.emoji || '🎁'}</span>`; return `<article class="product"><span class="badge ${p.badge === 'new' ? 'new' : p.badge === 'hot' ? 'hot' : ''}">${p.badge.toUpperCase()}</span><div class="p-img">${img}</div><div class="p-body"><div class="stars">${'★'.repeat(p.rating)}${'☆'.repeat(5 - p.rating)}</div><h3 class="p-name">${p.name}</h3><p class="p-sub">${p.sub}</p><div class="p-foot"><div><span class="price">₹${p.price.toLocaleString('en-IN')}</span>${p.old ? ` <span class="old">₹${p.old.toLocaleString('en-IN')}</span>` : ''}</div><button class="add" onclick="addToCart(${p.id})">+ Add</button></div></div></article>` }
+        function renderProducts() { let q = document.getElementById('searchInput').value.toLowerCase(), cat = document.getElementById('categoryFilter').value, sort = document.getElementById('sortFilter').value; let list = products.filter(p => (cat === 'all' || p.cat === cat) && (`${p.name} ${p.sub} ${p.cat}`.toLowerCase().includes(q))); if (sort === 'low') list.sort((a, b) => a.price - b.price); if (sort === 'high') list.sort((a, b) => b.price - a.price); document.getElementById('productGrid').innerHTML = list.length ? list.map(card).join('') : `<div class="empty" style="grid-column:1/-1">No products found. Try another search.</div>`; }
+        function renderGifts() { document.getElementById('giftGrid').innerHTML = gifts.map(card).join('') }
+        function setCategory(c) { document.getElementById('categoryFilter').value = c; renderProducts() } 
+        function focusSearch() { location.hash = 'products'; setTimeout(() => document.getElementById('searchInput').focus(), 250) }
+         function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active') }
+        function addToCart(id) { const p = all.find(x => x.id === id), ex = cart.find(x => x.id === id); ex ? ex.qty++ : cart.push({ ...p, qty: 1 }); save(); toast(`${p.name} added to cart`) } 
+        function save() { localStorage.setItem('ssquare_cart', JSON.stringify(cart)); updateCart() }
+        function updateCart() { document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0); renderCart() }
+function totals() {
+    let sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+    // Shipping ₹29 only for orders below ₹500
+    let ship = (sub > 0 && sub < 500) ? 29 : 0;
+
+    let total = sub + ship;
+
+    return { sub, ship, total };
+}       function renderCart() { const items = document.getElementById('cartItems'), sum = document.getElementById('cartSummary'), t = totals(); if (!cart.length) { items.innerHTML = '<div class="empty">🛒<br>Your cart is empty<br><small>Add products to continue</small></div>'; sum.innerHTML = ''; return } items.innerHTML = cart.map(i => `<div class="cart-item"><div class="ci-img">${i.emoji || '🎁'}</div><div><div class="ci-name">${i.name}</div><div class="ci-price">₹${i.price.toLocaleString('en-IN')}</div></div><div class="qty"><button onclick="qty(${i.id},-1)">−</button><b>${i.qty}</b><button onclick="qty(${i.id},1)">+</button></div></div>`).join(''); sum.innerHTML = `<div class="row"><span>Subtotal</span><b>₹${t.sub.toLocaleString('en-IN')}</b></div><div class="row"><span>Shipping</span><b>${t.ship ? '₹' + t.ship : 'FREE'}</b></div><div class="row total"><span>Total</span><b>₹${t.total.toLocaleString('en-IN')}</b></div><button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px" onclick="openCheckout()">Proceed to Checkout 🔒</button><button class="btn btn-light" style="width:100%;justify-content:center;margin-top:10px" onclick="sendWhatsAppOrder()">Order via WhatsApp</button>` }
+        function qty(id, d) { let i = cart.findIndex(x => x.id === id); if (i < 0) return; cart[i].qty += d; if (cart[i].qty <= 0) cart.splice(i, 1); save() } 
+        function openCart() { document.getElementById('drawerBg').classList.add('active'); document.getElementById('cartDrawer').classList.add('active') }
+         function closeCart() { document.getElementById('drawerBg').classList.remove('active'); document.getElementById('cartDrawer').classList.remove('active') }
+        function openCheckout() { if (!cart.length) return toast('Add products first'); closeCart(); let t = totals(); document.getElementById('checkoutContent').innerHTML = `<div class="pay-box"><span>Order Total</span><b>₹${t.total.toLocaleString('en-IN')}</b></div><div class="payment-tabs"><button class="tab active" onclick="paymentTab('card',this)">💳 Card</button><button class="tab" onclick="paymentTab('upi',this)">📱 UPI</button><button class="tab" onclick="paymentTab('bank',this)">🏦 Bank</button><button class="tab" onclick="paymentTab('cod',this)">💵 COD</button></div><form id="checkoutForm" onsubmit="placeOrder(event)"><div id="methodFields"></div><h3 style="margin:18px 0 10px;font-family:Fredoka">Delivery Details</h3><div class="field"><label>Full Name</label><input name="customerName" required placeholder="Customer name"></div><div class="field"><label>Phone Number</label><input name="phone" required pattern="[0-9]{10}" placeholder="10 digit mobile number"></div><div class="field"><label>Address</label><textarea name="address" required rows="3" placeholder="Door no, street, area"></textarea></div><div class="grid2"><div class="field"><label>City</label><input name="city" required placeholder="Chennai"></div><div class="field"><label>PIN Code</label><input name="pincode" required pattern="[0-9]{6}" placeholder="600000"></div></div><button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" type="submit">Place Secure Order</button><p style="color:var(--muted);font-weight:800;font-size:13px;text-align:center;margin-top:12px">Demo payment UI. Connect Razorpay/Stripe/PayPal keys in backend for live payment capture.</p></form>`; document.getElementById('checkoutModal').classList.add('active'); paymentTab('card', document.querySelector('.tab')) }
+        let currentPaymentType = 'card';
+        function paymentTab(type, btn) { currentPaymentType = type; document.querySelectorAll('.tab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+         const f = document.getElementById('methodFields'); let html = ''; if (type === 'card') html = `<div class="field"><label>Cardholder Name</label><input required placeholder="Name on card"></div><div class="field"><label>Card Number</label><input required maxlength="19" oninput="fmtCard(this)" placeholder="1234 5678 9012 3456"></div><div class="grid2"><div class="field"><label>Expiry</label><input required maxlength="7" oninput="fmtExp(this)" placeholder="MM / YY"></div><div class="field"><label>CVV</label><input required maxlength="4" type="password" placeholder="•••"></div></div>`; if (type === 'upi') html = `<div class="field"><label>UPI ID</label><input required placeholder="name@upi"></div><div class="field"><label>UPI App</label><select><option>Google Pay</option><option>PhonePe</option><option>Paytm</option><option>BHIM</option></select></div>`; if (type === 'bank') html = `<div class="field"><label>Select Bank</label><select><option>SBI</option><option>HDFC Bank</option><option>ICICI Bank</option><option>Axis Bank</option><option>Kotak Bank</option></select></div>`; if (type === 'cod') html = `<div style="background:#f2fff9;border:2px solid var(--green);border-radius:20px;padding:18px;text-align:center;font-weight:900;color:var(--green)">💵 Cash on Delivery Selected<br><small style="color:var(--muted)">Collect payment at delivery.</small></div>`; f.innerHTML = html }
+        async function placeOrder(e) {
+            e.preventDefault();
+            const form = document.getElementById('checkoutForm');
+            const fd = new FormData(form);
+            const customer = { name: fd.get('customerName'), phone: fd.get('phone'), address: fd.get('address'), city: fd.get('city'), pincode: fd.get('pincode') };
+            const t = totals();
+            const payload = { items: cart, subtotal: t.sub, shipping: t.ship, total: t.total, paymentMethod: currentPaymentType, customer };
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true; submitBtn.textContent = 'Placing order…';
+            let orderId, orderTime;
+            try {
+                const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!res.ok) throw new Error('Server error');
+                const data = await res.json();
+                orderId = data.id; orderTime = data.createdAt;
+            } catch (err) {
+                orderId = 'SE-' + Math.floor(100000 + Math.random() * 900000);
+                console.warn('Could not reach server, showing local order id instead:', err);
+            }
+            document.getElementById('checkoutContent').innerHTML = `<div class="success"><div class="ok">🎉</div><h2>Order Placed!</h2><p style="font-weight:900;color:var(--muted);line-height:1.7">Your order number is <b>${orderId}</b>.<br>Confirmation will be shared shortly.</p><button class="btn btn-primary" style="margin-top:18px" onclick="finishOrder()">Continue Shopping</button></div>`;
+            cart = []; save();
+        }
+        function finishOrder() { closeCheckout(); toast('Thank you for shopping!') } 
+        function closeCheckout() { document.getElementById('checkoutModal').classList.remove('active') }
+        function sendWhatsAppOrder() { if (!cart.length) return toast('Cart is empty'); let t = totals(), lines = cart.map(i => `${i.name} x ${i.qty} = ₹${i.price * i.qty}`).join('%0A'); window.open(`https://wa.me/${whatsappNumber}?text=Hi%20SSQUARE%20ELITE%2C%20I%20want%20to%20order:%0A${lines}%0ATotal:%20₹${t.total}`, '_blank') }
+        function fmtCard(el) { let v = el.value.replace(/\D/g, '').slice(0, 16); el.value = (v.match(/.{1,4}/g) || []).join(' ') } 
+        function fmtExp(el) { let v = el.value.replace(/\D/g, '').slice(0, 4); el.value = v.length > 2 ? v.slice(0, 2) + ' / ' + v.slice(2) : v } 
+        function toast(m) { let t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2300) }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCart(); closeCheckout() } }); init();
+    </script>
+</body>
+
+</html>
