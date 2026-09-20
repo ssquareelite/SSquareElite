@@ -1,119 +1,116 @@
-# SSQUARE ELITE — Website with Server
+# ToyLand — Node.js + Express + MongoDB + Stripe E-commerce
 
-This turns your original static `index.html` into a real website backed by a
-Node.js/Express server. The front end is unchanged visually — same design,
-products, cart, and checkout UI — but the checkout flow now talks to a real
-backend instead of only faking an order number in the browser.
+A full e-commerce build on top of your ToyLand store design: user accounts (signup/login),
+a MongoDB-backed product catalog and cart, and real payments via **Stripe Checkout**.
 
-## What the server does
+## What's included
 
-- Serves the website (`public/index.html` and its assets) at `/`
-- Serves an **admin panel** at `/admin.html` where you can log in and add,
-  edit, or delete products/gift sets. Changes show up on the live site
-  immediately — no code edits needed.
-- Exposes a small JSON API:
-  - `GET /api/products` — public, returns the current catalog (categories + products)
-  - `POST /api/admin/login` / `POST /api/admin/logout` / `GET /api/admin/session` — admin auth
-  - `POST /api/admin/products` — add a product (admin only)
-  - `PUT /api/admin/products/:id` — edit a product (admin only)
-  - `DELETE /api/admin/products/:id` — delete a product (admin only)
-  - `POST /api/orders` — saves a new order (cart items, totals, payment method, customer details) to `data/orders.json` and returns an order ID
-  - `GET /api/admin/orders` — lists all orders placed so far (admin only)
-  - `GET /api/orders/:id` — look up one order by its ID
-- The catalog shown on the homepage (categories, products, gift sets) is now
-  loaded from the server (`data/products.json`) instead of being hardcoded in
-  the HTML — so anything the admin adds/edits/deletes there is what visitors
-  see.
-- The checkout form on the site calls `POST /api/orders` when a customer
-  clicks "Place Secure Order". If the server can't be reached for some reason,
-  it quietly falls back to a locally-generated order number so the page never
-  breaks.
+- **Auth**: signup/login/logout with bcrypt-hashed passwords and JWT stored in an httpOnly cookie
+- **Database**: MongoDB via Mongoose — `User`, `Product`, `Order` models
+- **Cart**: stored server-side per logged-in user (not localStorage)
+- **Payments**: Stripe Checkout (hosted payment page) + webhook that marks orders paid
+- **Frontend**: your original ToyLand design, now driven by the API instead of hardcoded JS arrays
 
-## Admin login
-
-Go to **http://localhost:3000/admin.html** (there's also a discreet "Admin
-Login" link in the site footer).
-
-Default credentials (⚠️ **change these before you deploy anywhere public**):
+## Project structure
 
 ```
-username: admin
-password: admin123
+toyland-ecommerce/
+├── server.js              # Express app entrypoint
+├── config/db.js           # MongoDB connection
+├── models/                # User, Product, Order (Mongoose schemas)
+├── routes/                # auth, products, cart, checkout, webhook
+├── middleware/auth.js     # JWT cookie verification
+├── scripts/seed.js        # Populates the product catalog
+└── public/                # Static frontend (index, login, signup, success, cancel)
 ```
 
-Set your own via environment variables instead of editing the code:
+## 1. Install dependencies
 
 ```bash
-ADMIN_USERNAME=youradmin ADMIN_PASSWORD=your-strong-password SESSION_SECRET=some-long-random-string npm start
-```
-
-Once logged in you can:
-- Add a new product or gift set (name, category, price, old/strike-through
-  price, image path, emoji fallback, badge, rating)
-- Edit any existing product
-- Delete a product
-
-The very first time the server runs, it seeds the catalog from
-`data/products.seed.json` (your original product list) into
-`data/products.json`. After that, `data/products.json` is the live catalog —
-back it up if you want to keep a copy of your data.
-
-Note: this doesn't process real payments — it's the same "demo payment UI" as
-before. Card/UPI/bank fields are just collected for display; wire up
-Razorpay/Stripe/PayPal on the server if you want live payment capture.
-
-## Folder structure
-
-```
-ssquare-server/
-├── server.js          # Express server
-├── package.json
-├── data/
-│   └── orders.json    # orders get appended here (auto-created)
-└── public/
-    ├── index.html      # your site
-    └── assets/
-        └── images/     # put your product/category images here
-```
-
-## Missing images
-
-Your uploaded zip only contained the HTML file — the images it references
-(e.g. `assets/images/panda lamp.png`, `assets/images/cute panda.png`, etc.)
-weren't included. The site already has graceful fallbacks (emoji/icons show
-up if an image is missing), so it will still work, but for the real images
-just drop your image files into `public/assets/images/` using the exact
-filenames referenced in `index.html`.
-
-## Running it locally
-
-You'll need [Node.js](https://nodejs.org) installed (v18+ recommended).
-
-```bash
-cd ssquare-server
 npm install
+```
+
+## 2. Set up MongoDB
+
+Either run MongoDB locally, or create a free cluster at https://www.mongodb.com/cloud/atlas.
+
+## 3. Set up Stripe
+
+1. Create a Stripe account at https://dashboard.stripe.com (test mode is fine to start).
+2. Get your **secret key** from https://dashboard.stripe.com/test/apikeys.
+3. Install the Stripe CLI (https://stripe.com/docs/stripe-cli) to forward webhooks to your machine while developing:
+   ```bash
+   stripe login
+   stripe listen --forward-to localhost:3000/api/checkout/webhook
+   ```
+   This prints a `whsec_...` value — that's your webhook secret.
+
+## 4. Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Fill in `.env`:
+
+```
+MONGODB_URI=your MongoDB connection string
+JWT_SECRET=any long random string
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+## 5. Seed the product catalog
+
+```bash
+npm run seed
+```
+
+## 6. Run the app
+
+```bash
 npm start
 ```
 
-Then open **http://localhost:3000** in your browser.
+Visit **http://localhost:3000**. In a second terminal, keep `stripe listen` running so
+webhook events (payment confirmation) reach your server.
 
-To run on a different port:
+## Adding products as the store owner (admin)
 
-```bash
-PORT=8080 npm start
-```
+You don't have to edit code to add toys — there's an admin page with an image upload.
 
-## Deploying it
+1. Sign up for a normal account on the site (http://localhost:3000/signup.html)
+2. Make that account an admin:
+   ```bash
+   npm run make-admin -- youremail@example.com
+   ```
+3. Log out and back in on the site — you'll now see a **🛠️ Admin** button in the nav
+4. Go to `/admin.html` (or click the button) to add, edit, or delete toys — including uploading a product photo directly, or using an emoji if you don't have a photo
 
-Since this is a standard Express app, you can deploy it to any Node hosting
-provider (Render, Railway, Fly.io, a VPS, etc.). Steps are generally:
+Uploaded images are stored in `public/img/uploads/`.
 
-1. Push this folder to a Git repo (or upload it directly)
-2. Set the start command to `npm start`
-3. Make sure the platform installs dependencies (`npm install`) automatically
-4. Set the `PORT` environment variable if your host requires it (most inject
-   this automatically)
+## How checkout works
 
-For production use, you'd also want to swap the JSON-file order storage for
-a real database (Postgres, MongoDB, etc.) — happy to help with that if you
-want to take it further.
+1. User logs in, adds toys to their cart (stored in MongoDB against their account).
+2. "Proceed to Checkout" calls `POST /api/checkout/create-session`, which builds a
+   Stripe Checkout Session from the cart and creates a `pending` Order.
+3. The browser is redirected to Stripe's hosted payment page (real card entry — Stripe
+   handles all PCI-sensitive data, it never touches your server).
+4. On success, Stripe redirects back to `/success.html`, and separately sends a
+   `checkout.session.completed` webhook event to `/api/checkout/webhook`, which is what
+   actually marks the Order `paid` and clears the user's cart. `success.html` polls
+   briefly for that update.
+5. If the user backs out of Stripe, they land on `/cancel.html` and their cart is untouched.
+
+## Testing payments
+
+In Stripe test mode, use card number `4242 4242 4242 4242`, any future expiry, any CVC,
+and any postal code — no real charge occurs.
+
+## Going to production
+
+- Switch to live Stripe keys (`sk_live_...`) and register a **live** webhook endpoint in
+  the Stripe Dashboard (the CLI's `stripe listen` is dev-only).
+- Set `NODE_ENV=production` so auth cookies get `secure: true` (HTTPS only).
+- Set `CLIENT_URL` to your real domain.
+- Use a managed MongoDB (e.g. Atlas) with backups enabled.

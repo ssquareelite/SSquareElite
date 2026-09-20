@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed — ToyLand</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/index.html"><span>🧸</span> SSQUARE ELITE</a>
+  <ul class="nav-links"></ul>
+  <div class="nav-actions"><div class="nav-account" id="navAccount"></div></div>
+</nav>
+
+<div class="order-page">
+  <div class="order-card" id="orderCard">
+    <p style="text-align:center;color:var(--text-muted);font-weight:600;">Confirming your order…</p>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+async function loadOrder() {
+  const params = new URLSearchParams(location.search);
+  const sessionId = params.get('session_id');
+  const card = document.getElementById('orderCard');
+
+  if (!sessionId) {
+    card.innerHTML = `<div class="empty-state"><span class="emoji">🧸</span>No order to show.<br>
+      <a href="/index.html" style="color:var(--primary);font-weight:800;">Continue shopping</a></div>`;
+    return;
+  }
+
+  // Stripe's webhook is what actually marks the order "paid" — it can arrive a
+  // moment after the redirect, so poll briefly rather than assuming success.
+  for (let attempt = 0; attempt < 8; attempt++) {
+    try {
+      const { order } = await api(`/checkout/order/${sessionId}`);
+      if (order.status !== 'pending' || attempt === 7) {
+        renderOrder(order);
+        return;
+      }
+    } catch (err) {
+      card.innerHTML = `<div class="empty-state"><span class="emoji">😕</span>${err.message}</div>`;
+      return;
+    }
+    await new Promise((r) => setTimeout(r, 1200));
+  }
+}
+
+function renderOrder(order) {
+  const card = document.getElementById('orderCard');
+  const statusLabel = { paid: 'Paid ✅', pending: 'Processing…', cancelled: 'Cancelled', failed: 'Failed' }[order.status] || order.status;
+  const itemRows = order.items
+    .map((i) => `<div class="order-line"><span>${i.name} × ${i.quantity}</span><span>₹${(i.price * i.quantity).toLocaleString()}</span></div>`)
+    .join('');
+  card.innerHTML = `
+    <h1>${order.status === 'paid' ? '🎉 Order Confirmed!' : 'Order Received'}</h1>
+    <p style="margin-bottom:1rem;"><span class="status-pill ${order.status}">${statusLabel}</span></p>
+    ${itemRows}
+    <div class="order-line total"><span>Total</span><span>₹${order.total.toLocaleString()}</span></div>
+    <p style="margin-top:1.5rem;font-size:0.85rem;color:var(--text-muted);font-weight:600;">
+      Order ID: ${order._id}
+    </p>
+    <button class="btn-auth" style="margin-top:1.2rem;" onclick="location.href='/index.html'">Continue Shopping 🛍️</button>
+  `;
+}
+
+loadOrder();
+</script>
+</body>
+</html>
